@@ -1,4 +1,4 @@
-public class RegisterRequest {
+public class Auth {
     private String name;
     private String email;
     private String password;
