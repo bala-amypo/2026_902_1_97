@@ -19,7 +19,8 @@ import java.util.Map;
 public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final String password = request.getPassword();
+
 
     public AuthController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
