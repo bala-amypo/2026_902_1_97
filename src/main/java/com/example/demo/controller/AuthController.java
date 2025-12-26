@@ -1,58 +1,18 @@
-package com.example.demo.controller;
-
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.RegisterRequest;
-import com.example.demo.entity.User;
-import com.example.demo.security.JwtUtil;
-import com.example.demo.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.bind.annotation.*;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Authentication")
 public class AuthController {
-    private final UserService userService;
+
     private final JwtUtil jwtUtil;
-    private final String password = request.getPassword();
+    private final PasswordEncoder passwordEncoder;
 
-
-    public AuthController(UserService userService, JwtUtil jwtUtil) {
-        this.userService = userService;
+    public AuthController(JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.jwtUtil = jwtUtil;
-    }
-
-    @PostMapping("/register")
-    @Operation(summary = "Register user")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
-        User user = new User();
-        user.setEmail(request.getEmail());
-
-        return ResponseEntity.ok(userService.register(user));
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Login user")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-        try {
-            User user = userService.findByEmail(request.getEmail());
-            if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-                Map<String, Object> claims = Map.of(
-                    "userId", user.getId(),
-                    "email", user.getEmail(),
-                    "role", user.getRole()
-                );
-                String token = jwtUtil.generateToken(claims, user.getEmail());
-                return ResponseEntity.ok(new AuthResponse(token));
-            }
-            return ResponseEntity.status(401).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(401).build();
-        }
+    public AuthResponse login(@RequestBody AuthRequest request) {
+        String token = jwtUtil.generateToken(request.getEmail());
+        return new AuthResponse(token);
     }
 }
