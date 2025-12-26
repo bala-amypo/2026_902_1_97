@@ -1,11 +1,7 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,22 +11,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VerificationLog {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "certificate_id", nullable = true)
+    
+    @ManyToOne
+    @JoinColumn(name = "certificate_id")
     private Certificate certificate;
-
-    @Column(name = "verified_at", nullable = false)
-    @Builder.Default
-    private LocalDateTime verifiedAt = LocalDateTime.now();
-
-    @Column(nullable = false)
+    
+    private LocalDateTime verifiedAt;
+    
     private String status;
-
-    @Column(name = "ip_address")
+    
     private String ipAddress;
 }
