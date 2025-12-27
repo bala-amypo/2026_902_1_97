@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
-
 @RestController
 @RequestMapping("/auth")
 @Tag(name = "Authentication")
@@ -20,7 +19,6 @@ public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
     public AuthController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
@@ -37,7 +35,6 @@ public class AuthController {
                 .build();
         return ResponseEntity.ok(userService.register(user));
     }
-
     @PostMapping("/login")
     @Operation(summary = "Login user")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
