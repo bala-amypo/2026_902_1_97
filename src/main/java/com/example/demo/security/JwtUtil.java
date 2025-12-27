@@ -37,7 +37,7 @@ public class JwtUtil {
         }
     }
 
-    // 🔒 Helper method
+   
     private Claims getClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
