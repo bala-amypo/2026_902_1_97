@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
 @RestController
 @RequestMapping("/templates")
 @Tag(name = "Templates")
@@ -17,13 +16,11 @@ public class TemplateController {
     public TemplateController(TemplateService templateService) {
         this.templateService = templateService;
     }
-
     @PostMapping("/")
     @Operation(summary = "Add template")
     public ResponseEntity<CertificateTemplate> add(@RequestBody CertificateTemplate template) {
         return ResponseEntity.ok(templateService.addTemplate(template));
     }
-
     @GetMapping("/")
     @Operation(summary = "List templates")
     public ResponseEntity<List<CertificateTemplate>> list() {

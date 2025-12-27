@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/certificates")
 @Tag(name = "Certificates")
@@ -16,19 +15,16 @@ public class CertificateController {
     public CertificateController(CertificateService certificateService) {
         this.certificateService = certificateService;
     }
-
     @PostMapping("/generate/{studentId}/{templateId}")
     @Operation(summary = "Generate certificate")
     public ResponseEntity<Certificate> generate(@PathVariable Long studentId, @PathVariable Long templateId) {
         return ResponseEntity.ok(certificateService.generateCertificate(studentId, templateId));
     }
-
     @GetMapping("/{certificateId}")
     @Operation(summary = "Get certificate")
     public ResponseEntity<Certificate> get(@PathVariable Long certificateId) {
         return ResponseEntity.ok(certificateService.getCertificate(certificateId));
     }
-
     @GetMapping("/verify/code/{verificationCode}")
     @Operation(summary = "Verify certificate by code")
     public ResponseEntity<Certificate> verifyByCode(@PathVariable String verificationCode) {

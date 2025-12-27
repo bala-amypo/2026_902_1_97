@@ -23,7 +23,6 @@ public class AuthController {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
     }
-
     @PostMapping("/register")
     @Operation(summary = "Register user")
     public ResponseEntity<User> register(@RequestBody RegisterRequest request) {

@@ -22,11 +22,8 @@ public class Certificate {
     @ManyToOne
     @JoinColumn(name = "template_id")
     private CertificateTemplate template;
-    
     private LocalDate issuedDate;
-    
     private String qrCodeUrl;
-    
     @Column(unique = true)
     private String verificationCode;
 }
