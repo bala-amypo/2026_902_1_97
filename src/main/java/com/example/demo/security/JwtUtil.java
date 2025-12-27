@@ -10,34 +10,34 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "mySecretKey1234567890";
+    private final String SECRET_KEY = "mysecretkey";
+    private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 
-    // ✅ Generate token
-    public String generateToken(String email) {
+    // Generate token
+    public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
 
-    // ✅ Extract username (email) from token
+    // Extract username
     public String extractUsername(String token) {
         return getClaims(token).getSubject();
     }
 
-    // ✅ Validate token
-    public boolean validateToken(String token) {
-        try {
-            Claims claims = getClaims(token);
-            return !claims.getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
-        }
+    // Validate token
+    public boolean validateToken(String token, String username) {
+        String extractedUsername = extractUsername(token);
+        return extractedUsername.equals(username) && !isTokenExpired(token);
     }
 
-   
+    private boolean isTokenExpired(String token) {
+        return getClaims(token).getExpiration().before(new Date());
+    }
+
     private Claims getClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
