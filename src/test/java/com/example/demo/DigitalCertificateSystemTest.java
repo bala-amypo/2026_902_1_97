@@ -9,7 +9,7 @@ import com.example.demo.security.JwtUtil;
 import com.example.demo.service.*;
 import com.example.demo.service.impl.*;
 
-
+import lombok.var;
 
 import org.mockito.*;
 import org.testng.Assert;
@@ -566,12 +566,8 @@ public class DigitalCertificateSystemTest {
 
     @Test(priority = 51, groups = {"security"})
     public void t51_jwtClaimsIncludeUserDetails() {
-    \Map<String, Object> claims = Map.of("userId", 1000L, "email", "a@ex", "role", "STAFF");
-   Map<String, Object> claims = new HashMap<>();
-String token = jwtUtil.generateToken(claims, "a@ex");
-
-
-
+        Map<String, Object> claims = Map.of("userId", 1000L, "email", "a@ex", "role", "STAFF");
+        String token = jwtUtil.generateToken(claims, "a@ex");
         Assert.assertTrue(jwtUtil.validateToken(token));
         var body = jwtUtil.parseToken(token).getBody();
         Assert.assertEquals(body.get("email", String.class), "a@ex");
@@ -606,12 +602,7 @@ String token = jwtUtil.generateToken(claims, "a@ex");
     @Test(priority = 55, groups = {"security"})
     public void t55_protectedEndpointRequiresToken_simulated() {
         Map<String, Object> claims = Map.of("userId", 1L, "email", "x@ex", "role", "STAFF");
-    
-String token = jwtUtil.generateToken(claims, "x@ex");
-
-
-
-
+        String token = jwtUtil.generateToken(claims, "x@ex");
         Assert.assertTrue(jwtUtil.validateToken(token));
     }
 
