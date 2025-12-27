@@ -567,7 +567,10 @@ public class DigitalCertificateSystemTest {
     @Test(priority = 51, groups = {"security"})
     public void t51_jwtClaimsIncludeUserDetails() {
         Map<String, Object> claims = Map.of("userId", 1000L, "email", "a@ex", "role", "STAFF");
-   String token = jwtUtil.generateToken("testuser");
+   Map<String, Object> claims = new HashMap<>();
+String token = jwtUtil.generateToken(claims, "testuser");
+
+
 
         Assert.assertTrue(jwtUtil.validateToken(token));
         var body = jwtUtil.parseToken(token).getBody();
@@ -603,8 +606,9 @@ public class DigitalCertificateSystemTest {
     @Test(priority = 55, groups = {"security"})
     public void t55_protectedEndpointRequiresToken_simulated() {
         Map<String, Object> claims = Map.of("userId", 1L, "email", "x@ex", "role", "STAFF");
-     Map<String, Object> claims = new HashMap<>();
+    
 String token = jwtUtil.generateToken(claims, "testuser");
+
 
 
 
