@@ -603,7 +603,9 @@ public class DigitalCertificateSystemTest {
     @Test(priority = 55, groups = {"security"})
     public void t55_protectedEndpointRequiresToken_simulated() {
         Map<String, Object> claims = Map.of("userId", 1L, "email", "x@ex", "role", "STAFF");
-        String token = jwtUtil.generateToken("testuser");
+     Map<String, Object> claims = new HashMap<>();
+String token = jwtUtil.generateToken(claims, "testuser");
+
 
 
         Assert.assertTrue(jwtUtil.validateToken(token));
