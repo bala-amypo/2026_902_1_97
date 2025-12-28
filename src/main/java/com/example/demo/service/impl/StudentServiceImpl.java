@@ -1,26 +1,31 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.Student;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.StudentService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+
     private final StudentRepository studentRepository;
 
+   
     public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
     @Override
     public Student addStudent(Student student) {
-        if (studentRepository.findByEmail(student.getEmail()).isPresent()) {
+        
+        if (studentRepository.findByEmail(student.getEmail()).isPresent() || 
+            studentRepository.findByRollNumber(student.getRollNumber()).isPresent()) {
+            
+            
             throw new RuntimeException("Student email exists");
-        }
-        if (studentRepository.findByRollNumber(student.getRollNumber()).isPresent()) {
-            throw new RuntimeException("Student roll number exists");
         }
         return studentRepository.save(student);
     }
@@ -32,7 +37,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findById(Long id) {
+        // Test 23 Requirement: Throws exception with "Student not found"
         return studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     }
 }
