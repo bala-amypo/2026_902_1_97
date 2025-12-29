@@ -22,7 +22,7 @@ public class SwaggerConfig {
                         .description("Digital Certificate Generator API with JWT Authentication"))
                 .servers(List.of(
                         
-                        new Server().url("https://9267.408procr.amypo.ai/") 
+                        new Server().url("https://9041.408procr.amypo.ai/") 
                 ))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
